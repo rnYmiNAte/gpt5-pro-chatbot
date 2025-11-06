@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  @apply bg-background text-foreground antialiased;
+}
+
+.chat-container {
+  @apply flex flex-col h-full overflow-y-auto p-4;
+}
