@@ -1,0 +1,25 @@
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  chats     Chat[]
+  createdAt DateTime @default(now())
+}
+
+model Chat {
+  id        String   @id @default(cuid())
+  title     String
+  messages  Message[]
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  role      String   // 'user' or 'assistant'
+  content   String
+  chatId    String
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  createdAt DateTime @default(now())
+}
