@@ -1,0 +1,40 @@
+name: Lint & Code Quality Check
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  lint:
+    name: Run ESLint & Prettier
+    runs-on: ubuntu-latest
+
+    steps:
+      # 🧩 Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ⚙️ Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      # 📦 Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 🧹 Run ESLint (checks for JS/TS errors)
+      - name: Run ESLint
+        run: npx eslint . --ext .js,.jsx,.ts,.tsx --max-warnings=0
+
+      # ✨ Run Prettier (checks formatting)
+      - name: Check Prettier formatting
+        run: npx prettier --check "**/*.{js,jsx,ts,tsx,css,md,json}"
+
+      # 🧾 Optional: Type check with TypeScript
+      - name: Type check
+        run: npx tsc --noEmit
